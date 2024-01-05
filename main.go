@@ -1,4 +1,3 @@
-// main.go
 package main
 
 import (
@@ -13,6 +12,8 @@ func main() {
 
 	// Define the API route
 	router.HandleFunc("/api/getCurrentValues/{station_name}", getCurrentValues).Methods("GET")
+
+	router.HandleFunc("/api/getHourlyAvg/{station_name}/{dt_from_string}/{dt_to_string}", getHourlyAvg).Methods("GET")
 
 	// Start the server
 	port := 8080
