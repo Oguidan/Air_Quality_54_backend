@@ -3,19 +3,16 @@ package main
 
 import (
 	"fmt"
+	"github.com/gorilla/mux"
 	"log"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 func main() {
 	router := mux.NewRouter()
 
-	// Define your API routes
-	router.HandleFunc("/api/airqino-data", getAirqinoData).Methods("GET")
-
-	// Set up other routes as needed
+	// Define the API route
+	router.HandleFunc("/api/getCurrentValues/{station_name}", getCurrentValues).Methods("GET")
 
 	// Start the server
 	port := 8080
