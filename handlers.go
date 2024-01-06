@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/mux"
-	// "io/ioutil"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -66,6 +66,8 @@ func getHourlyAvg(w http.ResponseWriter, r *http.Request) {
 	// Construct the API URL
 	apiURL := fmt.Sprintf("https://airqino-api.magentalab.it/getHourlyAvg/%s/%s/%s?pivot=true", stationName, dtFromString, dtToString)
 
+	fmt.Print(apiURL)
+
 	// Make the GET request to the external API
 	response, err := http.Get(apiURL)
 	if err != nil {
@@ -83,12 +85,11 @@ func getHourlyAvg(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Read the response body
-	// body, err := ioutil.ReadAll(response.Body)
-	// if err != nil {
-	// log.Fatal(err)
-	// }
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// Print or process the response body (text/csv in this case)
-	// fmt.Println(string(body))
-	fmt.Print(response)
+	fmt.Println(string(body))
 }
