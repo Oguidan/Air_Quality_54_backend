@@ -1,12 +1,15 @@
 package main
 
 import (
+	"encoding/csv"
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
+
+	"github.com/gorilla/mux"
 )
 
 // Define a struct to represent Airqino data
@@ -90,6 +93,28 @@ func getHourlyAvg(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
+	// Parse the CSV data
+	reader := csv.NewReader(strings.NewReader(string(body)))
+	records, err := reader.ReadAll()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Convert the CSV data to JSON
+	var jsonData []map[string]string
+	headers := records[0] // Assumes the first row is headers
+	for _, row := range records[1:] {
+		record := make(map[string]string)
+		for i, value := range row {
+			record[headers[i]] = value
+		}
+		jsonData = append(jsonData, record)
+	}
+
+	// Write the JSON data to the response
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(jsonData)
+
 	// Print or process the response body (text/csv in this case)
-	fmt.Println(string(body))
+	fmt.Println(jsonData)
 }
