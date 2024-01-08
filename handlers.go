@@ -26,6 +26,8 @@ type SensorData struct {
 	Value  float64 `json:"value"`
 }
 
+// Define
+
 func getCurrentValues(w http.ResponseWriter, r *http.Request) {
 	// Extract station_name from the request path
 	vars := mux.Vars(r)
@@ -68,8 +70,6 @@ func getHourlyAvg(w http.ResponseWriter, r *http.Request) {
 
 	// Construct the API URL
 	apiURL := fmt.Sprintf("https://airqino-api.magentalab.it/getHourlyAvg/%s/%s/%s?pivot=true", stationName, dtFromString, dtToString)
-
-	fmt.Print(apiURL)
 
 	// Make the GET request to the external API
 	response, err := http.Get(apiURL)
@@ -117,4 +117,42 @@ func getHourlyAvg(w http.ResponseWriter, r *http.Request) {
 
 	// Print or process the response body (text/csv in this case)
 	fmt.Println(jsonData)
+}
+
+func getRange(w http.ResponseWriter, r *http.Request) {
+	// Extract station_name, dt_from_string and dt_to_string from the request path
+	vars := mux.Vars(r)
+	stationName := vars["station_name"]
+	dtFromString := vars["dt_from_string"]
+	dtToString := vars["dt_to_string"]
+
+	// Construct the API URL
+	apiURL := fmt.Sprintf("https://airqino-api.magentalab.it/getRange/%s/%s/%s", stationName, dtFromString, dtToString)
+
+	// Make the GET request to the external API
+	response, err := http.Get(apiURL)
+	if err != nil {
+		log.Fatal(err)
+		http.Error(w, "Error decoding API response", http.StatusInternalServerError)
+		return
+	}
+
+	// Ensure the response body is closed when done
+	defer response.Body.Close()
+
+	// Check if the request was successful (status code 200)
+	if response.StatusCode != http.StatusOK {
+		log.Fatalf("Request failed with status code: %d", response.StatusCode)
+	}
+
+	// Read the response body
+	body, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Write the response body to the response
+	fmt.Print(body)
+	w.Header().Set("content-Type", "application/json")
+	json.NewEncoder(w).Encode(body)
 }
