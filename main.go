@@ -20,5 +20,5 @@ func main() {
 	// Start the server
 	port := 8080
 	log.Printf("Server listening on port %d...\n", port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), router))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", port), router))
 }
