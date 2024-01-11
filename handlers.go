@@ -46,7 +46,7 @@ type SensorRange struct {
 	PM25         float64 `json:"PM2.5"`
 	RH           float64 `json:"RH"`
 	T            float64 `json:"T"`
-	TempInt      float64 `json:"Temp. int."`
+	TempInt      float64 `json:"TempInt"`
 	VOC          float64 `json:"VOC"`
 	Lat          float64 `json:"lat"`
 	Lon          float64 `json:"lon"`
