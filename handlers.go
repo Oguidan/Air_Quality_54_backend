@@ -26,23 +26,31 @@ type SensorData struct {
 	Value  float64 `json:"value"`
 }
 
+// Define a to represente raw of sensor range data
+type Raw struct {
+	RawData []SensorRange `json:"raw_data"`
+}
+
 // Define a struct to represente sensor range data
 type SensorRange struct {
-	AUX1_INPUT string  `json:"aux1_input"`
-	AUX2_INPUT string  `json:"aux2_input"`
-	CO         float64 `json:"co"`
-	CO2        float64 `json:"co2"`
-	NO2        float64 `json:"no2"`
-	O3         float64 `json:"o3"`
-	PM10       float64 `json:"pm10"`
-	PM25       float64 `json:"pm25"`
-	SO2        float64 `json:"so2"`
-	T          float64 `json:"t"`
-	Temp       float64 `json:"temp"`
-	VOC        float64 `json:"voc"`
-	Lat        float64 `json:"lat"`
-	Lon        float64 `json:"lon"`
-	Time       string  `json:"time"`
+	AUX1         float64 `json:"AUX1"`
+	AUX1_INPUT   string  `json:"AUX1_INPUT"`
+	AUX2         float64 `json:"AUX2"`
+	AUX2_INPUT   string  `json:"AUX2_INPUT"`
+	AUX3         float64 `json:"AUX3"`
+	CO           float64 `json:"CO"`
+	CO2          float64 `json:"CO2"`
+	NO2          float64 `json:"NO2"`
+	O3           float64 `json:"O3"`
+	PM10         float64 `json:"PM10"`
+	PM25         float64 `json:"PM2.5"`
+	RH           float64 `json:"RH"`
+	T            float64 `json:"T"`
+	TempInt      float64 `json:"Temp. int."`
+	VOC          float64 `json:"VOC"`
+	Lat          float64 `json:"lat"`
+	Lon          float64 `json:"lon"`
+	UTCTimestamp string  `json:"utc_timestamp"`
 }
 
 func getCurrentValues(w http.ResponseWriter, r *http.Request) {
@@ -163,8 +171,8 @@ func getRange(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Decode the response JSON
-	var body SensorRange
-	if err := json.NewDecoder(response.Body).Decode(body); err != nil {
+	var body Raw
+	if err := json.NewDecoder(response.Body).Decode(&body); err != nil {
 		log.Fatal(err)
 		http.Error(w, "Error decoding json API response", http.StatusInternalServerError)
 	}
