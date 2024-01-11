@@ -1,1 +1,2 @@
-myKey.pem
+# Ignore binary files
+snyk-linux
