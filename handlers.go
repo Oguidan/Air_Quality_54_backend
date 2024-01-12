@@ -33,23 +33,21 @@ type Raw struct {
 
 // Define a struct to represente sensor range data
 type SensorRange struct {
-	AUX1         float64 `json:"AUX1"`
-	AUX1_INPUT   string  `json:"AUX1_INPUT"`
-	AUX2         float64 `json:"AUX2"`
-	AUX2_INPUT   string  `json:"AUX2_INPUT"`
+	AUX1 float64 `json:"AUX1"`
+	// AUX1_INPUT   string  `json:"AUX1_INPUT"`
+	AUX2 float64 `json:"AUX2"`
+	// AUX2_INPUT   string  `json:"AUX2_INPUT"`
 	AUX3         float64 `json:"AUX3"`
 	CO           float64 `json:"CO"`
-	CO2          float64 `json:"CO2"`
+	ExtT         float64 `json:"extT"`
+	IntT         float64 `json:"intT"`
+	Lat          float64 `json:"lat"`
+	Lon          float64 `json:"lon"`
 	NO2          float64 `json:"NO2"`
 	O3           float64 `json:"O3"`
 	PM10         float64 `json:"PM10"`
-	PM25         float64 `json:"PM2.5"`
+	PM25         float64 `json:"PM25"`
 	RH           float64 `json:"RH"`
-	T            float64 `json:"T"`
-	TempInt      float64 `json:"TempInt"`
-	VOC          float64 `json:"VOC"`
-	Lat          float64 `json:"lat"`
-	Lon          float64 `json:"lon"`
 	UTCTimestamp string  `json:"utc_timestamp"`
 }
 
