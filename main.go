@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -16,6 +17,8 @@ func main() {
 	router.HandleFunc("/api/getHourlyAvg/{station_name}/{dt_from_string}/{dt_to_string}", getHourlyAvg).Methods("GET")
 
 	router.HandleFunc("/api/getRange/{station_name}/{dt_from_string}/{dt_to_string}", getRange).Methods("GET")
+
+	router.HandleFunc("/api/getSessionInfo/{project_name}", getSessionInfo).Methods("GET")
 
 	// Start the server
 	port := 8080

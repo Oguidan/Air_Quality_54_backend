@@ -180,3 +180,37 @@ func getRange(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-Type", "application/json")
 	json.NewEncoder(w).Encode(body)
 }
+
+func getSessionInfo(w http.ResponseWriter, r *http.Request) {
+	// Extract project_name from the request path
+	vars := mux.Vars(r)
+	projectName := vars["project_name"]
+
+	// Construct the API URL
+	apiURL := fmt.Sprintf("https://airqino-api.magentalab.it/getSessionInfo/%s", projectName)
+
+	// Make the GET request to the external API
+	response, err := http.Get(apiURL)
+	if err != nil {
+		log.Fatal(err)
+		http.Error(w, "Error making external API request", http.StatusInternalServerError)
+		return
+	}
+
+	// Ensure the response body is closed when done
+	defer response.Body.Close()
+
+	// Decode the response JSON
+	var airqinoData any
+	if err := json.NewDecoder(response.Body).Decode(&airqinoData); err != nil {
+		log.Fatal(err)
+		http.Error(w, "Error decoding API response", http.StatusInternalServerError)
+		return
+	}
+
+	// Return the decoded data as JSON
+	w.Header().Set("content-Type", "application/json")
+	json.NewEncoder(w).Encode(airqinoData)
+
+	defer response.Body.Close()
+}
