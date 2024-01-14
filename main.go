@@ -22,6 +22,8 @@ func main() {
 
 	router.HandleFunc("/api/getSingleDay/{station_name}/{dt_from_string}", getSingleDay).Methods("GET")
 
+	router.HandleFunc("/api/getStationStatus/{station_id}", getStationStatus).Methods("GET")
+
 	// Start the server
 	port := 8080
 	log.Printf("Server listening on port %d...\n", port)
