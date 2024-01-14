@@ -214,3 +214,36 @@ func getSessionInfo(w http.ResponseWriter, r *http.Request) {
 
 	defer response.Body.Close()
 }
+
+func getSingleDay(w http.ResponseWriter, r *http.Request) {
+	// Extract the station_name and dt_from_string
+	vars := mux.Vars(r)
+	stationName := vars["station_name"]
+	dtFromString := vars["dt_from_string"]
+
+	// Construct the API URL
+	apiURL := fmt.Sprintf("https://airqino-api.magentalab.it/getSingleDay/%s/%s", stationName, dtFromString)
+
+	// Make the GET request to the external API
+	response, err := http.Get(apiURL)
+	if err != nil {
+		log.Fatal(err)
+		http.Error(w, "Error making external API request", http.StatusInternalServerError)
+		return
+	}
+
+	// Ensure the response body is closed when done
+	defer response.Body.Close()
+
+	// Decode the response JSON
+	var airqinoData any
+	if err := json.NewDecoder(response.Body).Decode(&airqinoData); err != nil {
+		log.Fatal(err)
+		http.Error(w, "Error decoding the API response", http.StatusInternalServerError)
+		return
+	}
+
+	// Return the decoded data as JSON
+	w.Header().Set("content-Type", "application/json")
+	json.NewEncoder(w).Encode(airqinoData)
+}
