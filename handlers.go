@@ -278,3 +278,31 @@ func getStationStatus(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(airquinoData)
 }
+
+func getStations(w http.ResponseWriter, r *http.Request) {
+	// Extract project_name from the request path
+	vars := mux.Vars(r)
+	projectName := vars["project_name"]
+
+	// Construct the API URL
+	apiURL := fmt.Sprintf("https://airqino-api.magentalab.it/getStations/%s", projectName)
+
+	// Make the GET request to the external API
+	response, err := http.Get(apiURL)
+	if err != nil {
+		log.Fatal(err)
+		http.Error(w, "Error making external API request", http.StatusInternalServerError)
+		return
+	}
+
+	// Ensure the response body is closed when done
+	defer response.Body.Close()
+
+	// Decode the response JSON
+	var airqinoData any
+	if err := json.NewDecoder(response.Body).Decode(&airqinoData); err != nil {
+		log.Fatal(err)
+		http.Error(w, "Error decoding API response", http.StatusInternalServerError)
+		return
+	}
+}
