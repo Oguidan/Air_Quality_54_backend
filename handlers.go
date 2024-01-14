@@ -81,7 +81,6 @@ func getCurrentValues(w http.ResponseWriter, r *http.Request) {
 	// Return the decoded data as JSON
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(airqinoData)
-	fmt.Print(airqinoData)
 }
 
 func getHourlyAvg(w http.ResponseWriter, r *http.Request) {
@@ -305,4 +304,8 @@ func getStations(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Error decoding API response", http.StatusInternalServerError)
 		return
 	}
+
+	// Return the decode data as JSON
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(airqinoData)
 }
