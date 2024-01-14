@@ -136,9 +136,6 @@ func getHourlyAvg(w http.ResponseWriter, r *http.Request) {
 	// Write the JSON data to the response
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(jsonData)
-
-	// Print or process the response body (text/csv in this case)
-	fmt.Println(jsonData)
 }
 
 func getRange(w http.ResponseWriter, r *http.Request) {
@@ -175,7 +172,6 @@ func getRange(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Write the response body to the response
-	fmt.Print(body)
 	w.Header().Set("content-Type", "application/json")
 	json.NewEncoder(w).Encode(body)
 }
@@ -210,8 +206,6 @@ func getSessionInfo(w http.ResponseWriter, r *http.Request) {
 	// Return the decoded data as JSON
 	w.Header().Set("content-Type", "application/json")
 	json.NewEncoder(w).Encode(airqinoData)
-
-	defer response.Body.Close()
 }
 
 func getSingleDay(w http.ResponseWriter, r *http.Request) {
