@@ -334,7 +334,7 @@ func getStationHourlyAvg(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Construct the API URL
-	apiURL := fmt.Sprintf("https://airqino-api.magentalab.it/v3/getStationHourlyAvg/%s?end_date=%s&start_date=%s", stationId, endDateStr, startDateStr)
+	apiURL := fmt.Sprintf("https://airqino-api.magentalab.it/v3/getStationHourlyAvg/%s?start_date=%s&end_date=%s", stationId, startDateStr, endDateStr)
 
 	// Make the GET request to the external API
 	response, err := http.Get(apiURL)
