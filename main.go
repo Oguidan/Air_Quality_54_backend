@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 )
 
 func main() {
@@ -29,7 +30,8 @@ func main() {
 	router.HandleFunc("/api/getStationHourlyAvg/{station_id}", getStationHourlyAvg).Methods("GET")
 
 	// Start the server
+	handler := cors.Default().Handler(router)
 	port := 8080
 	log.Printf("Server listening on port %d...\n", port)
-	log.Fatal(http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", port), router))
+	log.Fatal(http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", port), handler))
 }
